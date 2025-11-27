@@ -1,0 +1,177 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "responsesApiEnabled": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        240
+      ],
+      "id": "65729da8-df8e-4022-aebe-8c752a28bd57",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "CuZzbAJ8yVLaUwcj",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        448,
+        240
+      ],
+      "id": "dfa0637c-37ed-4bec-a0c5-9d26aa95f741",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Fetches the latest AI news articles from NewsAPI",
+        "url": "https://newsapi.org/v2/everything?q=AI&sortBy=publishedAt&apiKey=8230989d8be64f8eac2a5de7b67e021a",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        576,
+        240
+      ],
+      "id": "481c4841-c7fa-4684-8215-0fc0a6aafebc",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "sendTo": "praptiisback8@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        704,
+        240
+      ],
+      "id": "5f03a501-e3bf-45e2-86bf-add308e248b4",
+      "name": "Send a message in Gmail",
+      "webhookId": "25796a62-d5d6-4804-acb6-6c659e5729fd",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "stSae9r5gbXB4mjr",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        440,
+        16
+      ],
+      "id": "1c171c0d-17aa-4747-917b-eb3b87409e1e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        96,
+        16
+      ],
+      "id": "30bf9895-c98d-4b6c-a5a6-e01810caa970",
+      "name": "When chat message received1",
+      "webhookId": "89ae3117-36f6-453d-9ae8-80287df4f62c"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "6008d7c0-5bc7-4e3a-a168-e6c436e8be9e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5cccbebb34f46caa2db153630b4d172395c1a822f7d5b529490f69016b0ea6af"
+  },
+  "id": "owj9tVgK4UJcv98L",
+  "tags": []
+}
